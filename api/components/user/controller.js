@@ -18,16 +18,12 @@ module.exports = function (injectedStore) {
 
     async function upsert(body) {
         const user = {
+            isNew: body.isNew,
+            id: body.id,
             name: body.name,
             username: body.username,
-        }
-
-        // if (body.id) {
-        //     user.id = body.id;
-        // } else {
-        //     user.id = nanoid();
-        // }
-
+        };
+        
         if (body.password || body.username) {
             await auth.upsert ({
                 id: user.id,

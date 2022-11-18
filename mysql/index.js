@@ -8,7 +8,9 @@ const app = express();
 app.use(bodyParser.json());
 
 //RUTAS
-app.use('/', router)
+app.use('/', router);
+
+
 app.listen(config.mysqlService.port, () => {
     console.log('Mysql service on Port ', config.mysqlService.port)
 });

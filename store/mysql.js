@@ -85,18 +85,20 @@ function update(table, data) {
 
 function query(table, query) {
     return new Promise((resolve, reject) => {
-        connection.query(`SELECT * FROM ${table} WHERE ?`, query, (err, res) => {
+        connection.query(`SELECT * FROM ${table} WHERE username=${query.username}`, (err, res) => {
             if (err) return reject(err);
             resolve(res[0] || null);
         })
     })
 };
 
-function upsert (table, data) {
-    if (data && data.id) {
-        return update(table, data);
+async function upsert (table, data) {
+    const row = await get(table, data.id);
+    console.log('este es rooooooow',row)
+    if (!row) {
+        return insert(table, data);
     } else {
-        return insert (table, data)
+        return update (table, data)
     }
 }
 module.exports = { list, get, upsert, update, query, insert }

@@ -11,8 +11,9 @@ module.exports = function (injectedStore) {
 
     async function login(username, password) {
         const data = await store.query(TABLA, {username: username});
+        console.log(data)
 
-        return bcrypt.compare(password, data.password)
+        return bcrypt.compare(password, data.body.password)
             .then(areEqual => {
                 if (areEqual === true) {
                     return auth.sign({...data})
