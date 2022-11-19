@@ -16,22 +16,39 @@ module.exports = function (injectedStore) {
         return store.get(TABLA, id)
     };
 
-    async function upsert(body) {
+    async function insert(body) {
         const user = {
-            isNew: body.isNew,
+            
             id: body.id,
             name: body.name,
             username: body.username,
         };
         
         if (body.password || body.username) {
-            await auth.upsert ({
+            await auth.insert ({
                 id: user.id,
                 username: user.username,
                 password: body.password,
             })
         }
-        return store.upsert(TABLA, user)
+        return store.insert(TABLA, user)
+    }
+
+    async function update(body, id) {
+        const userid = id
+        const user = {
+            name: body.name,
+            username: body.username,
+        };
+  // por ahora dejamos esto comentado, primero que actualice los users      
+        // if (body.password || body.username) {
+        //     await auth.update ({
+        //         username: user.username,
+        //         password: user.password,
+        //     })
+        // }
+        console.log('ENTROO la infor a CONTROLLER/UPDATE', user)
+        return store.update(TABLA, user, userid)
     }
 
     function remove(id) {
@@ -41,8 +58,9 @@ module.exports = function (injectedStore) {
     return {
         list,
         get,
-        upsert,
+        insert,
         remove,
+        update,
         
     }
 }

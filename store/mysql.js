@@ -23,7 +23,7 @@ function handleCon() {
     connection.connect((err) => {
         if(err){
             console.error('[db err]', err);
-            setTimeout(handleCon, 2000);
+            setTimeout(handleCon, 1000);
         } else {
             console.log('DB Connected!!');
         };
@@ -74,11 +74,13 @@ function insert(table, data) {
     })
 };
 
-function update(table, data) {
+function update(table, id, data) {
+    console.log('UPDATE MYSQL', table, 'DATA',data,'ID', id);
     return new Promise ((resolve, reject) => {
-        connection.query(`UPDATE TABLE ${table} SET ? WHERE id=?`, [data, data.id], (err, result) => {
+        connection.query(`UPDATE ${table} SET ? WHERE id=?`, [data, id], (err, result) => {
             if (err) return reject(err);
             resolve(result);
+            console.log('ESTE ES EL RESULTADO', result)
         })
     })
 };
@@ -92,13 +94,5 @@ function query(table, query) {
     })
 };
 
-async function upsert (table, data) {
-    const row = await get(table, data.id);
-    console.log('este es rooooooow',row)
-    if (!row) {
-        return insert(table, data);
-    } else {
-        return update (table, data)
-    }
-}
-module.exports = { list, get, upsert, update, query, insert }
+
+module.exports = { list, get, update, query, insert }

@@ -57,8 +57,8 @@ const router = express.Router();
 
 router.get('/', list);
 router.get('/:id', get);
-router.post('/', upsert);
-router.put('/', upsert);
+router.post('/', insert);
+router.post('/:id', update);
 
 // Internal functions
 function list(req, res, next) {
@@ -77,8 +77,16 @@ function get(req, res, next) {
         .catch(next);
 }
 
-function upsert(req, res, next) {
-    Controller.upsert(req.body)
+function insert(req, res, next) {
+    Controller.insert(req.body)
+        .then((user) => {
+            response.success(req, res, user, 201);
+        })
+        .catch(next);
+}
+
+function update(req, res, next) {
+    Controller.update(req.body, req.params.id)
         .then((user) => {
             response.success(req, res, user, 201);
         })

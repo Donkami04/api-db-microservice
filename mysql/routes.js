@@ -6,7 +6,7 @@ const router = express.Router();
 router.get('/:table', list);
 router.get('/:table/:id', get);
 router.post('/:table', insert);
-router.patch('/:table', upsert);
+router.post('/:table/:id', update);
 router.put('/:table', query);
 
 async function list(req, res, next) {
@@ -24,8 +24,8 @@ async function insert(req, res, next) {
     response.success(req, res, data, 200);
 };
 
-async function upsert(req, res, next) {
-    const data = await Store.upsert(req.params.table, req.body)
+async function update(req, res, next) {
+    const data = await Store.update(req.params.table, req.params.id, req.body)
     response.success(req, res, data, 200);
 };
 

@@ -16,9 +16,8 @@ function createRemoteDB(host, port) {
 
     }
 
-    async function upsert(table, data) {
+    async function insert(table, data) {
         const body = data;
-        console.log('REMOTE: a ver si da el usuario y el passw  ',data)
         const response = await fetch(`${URL}/${table}`, 
         {   method: 'post', 
             body: JSON.stringify(body),
@@ -30,24 +29,24 @@ function createRemoteDB(host, port) {
     }
 
 
-    function update(table, data) {
-        return req('PUT', table, data)
+    async function update(table, data, id) {
+        const body = data;
+        console.log('REMOTE UPDATE: a ver si da el usuario y el passw  ',data, id)
+        const response = await fetch(`${URL}/${table}/${id}`, 
+        {   method: 'POST', 
+            body: JSON.stringify(body),
+            headers: {'Content-Type': 'application/json'}
+        });
+        const data4 = await response.json();
+        console.log('RETMOTE: AQUI ESTA LA DATA DE UPDATE',data4)
+
+        return data4;
     }
-
-    // function upsert(table, data) {
-    //     if(data.id) {
-    //         return update('PUT', table, data)            
-    //     }
-    // }
-
-    // function query(table, query, join) {
-    //     return req('POST', table + '/query', { query, join})
-    // }
 
     async function query(table, data) {
         const body = data;
         const response = await fetch(`${URL}/${table}`, {
-            method: 'POST', 
+            method: 'put', 
             body: JSON.stringify(body),
             headers: {'Content-Type': 'application/json'}
         });
@@ -81,7 +80,7 @@ function createRemoteDB(host, port) {
     return {
         list,
         get,
-        upsert,
+        insert,
         update,
         query,
     }

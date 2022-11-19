@@ -11,7 +11,7 @@ module.exports = function (injectedStore) {
 
     async function login(username, password) {
         const data = await store.query(TABLA, {username: username});
-        console.log(data)
+        console.log('******** CONTROLLER/AUTH/LOGIN',data)
 
         return bcrypt.compare(password, data.body.password)
             .then(areEqual => {
@@ -23,7 +23,7 @@ module.exports = function (injectedStore) {
             })
     }
 
-    async function upsert(data) {
+    async function insert(data) {
 
         const authData = {
             id: data.id
@@ -37,8 +37,25 @@ module.exports = function (injectedStore) {
             authData.password = await bcrypt.hash(data.password, 10);
         }
 
-        return store.upsert(TABLA, authData);
+        return store.insert(TABLA, authData);
     }
 
-    return { upsert, login }
+    async function update(data) {
+
+        const authData = {
+            id: data.id
+        }
+
+        if(data.username) {
+            authData.username = data.username;
+        }
+
+        if(data.password) {
+            authData.password = await bcrypt.hash(data.password, 10);
+        }
+
+        return store.update(TABLA, authData);
+    }
+
+    return { insert, login, update }
 }
