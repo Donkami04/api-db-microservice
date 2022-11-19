@@ -35,24 +35,18 @@ module.exports = function (injectedStore) {
     }
 
     async function update(body, id) {
-        const userid = id
+        const userid = id;
         const user = {
             name: body.name,
             username: body.username,
         };
-  // por ahora dejamos esto comentado, primero que actualice los users      
-        // if (body.password || body.username) {
-        //     await auth.update ({
-        //         username: user.username,
-        //         password: user.password,
-        //     })
-        // }
-        console.log('ENTROO la infor a CONTROLLER/UPDATE', user)
+
+
         return store.update(TABLA, user, userid)
     }
 
     function remove(id) {
-        return store.remove(TABLA, id)
+        return store.remove(TABLA, userid)
     };
 
     return {

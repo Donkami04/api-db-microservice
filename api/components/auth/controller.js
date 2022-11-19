@@ -40,22 +40,5 @@ module.exports = function (injectedStore) {
         return store.insert(TABLA, authData);
     }
 
-    async function update(data) {
-
-        const authData = {
-            id: data.id
-        }
-
-        if(data.username) {
-            authData.username = data.username;
-        }
-
-        if(data.password) {
-            authData.password = await bcrypt.hash(data.password, 10);
-        }
-
-        return store.update(TABLA, authData);
-    }
-
-    return { insert, login, update }
+    return { insert, login }
 }

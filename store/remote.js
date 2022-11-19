@@ -31,15 +31,12 @@ function createRemoteDB(host, port) {
 
     async function update(table, data, id) {
         const body = data;
-        console.log('REMOTE UPDATE: a ver si da el usuario y el passw  ',data, id)
         const response = await fetch(`${URL}/${table}/${id}`, 
         {   method: 'POST', 
             body: JSON.stringify(body),
             headers: {'Content-Type': 'application/json'}
         });
         const data4 = await response.json();
-        console.log('RETMOTE: AQUI ESTA LA DATA DE UPDATE',data4)
-
         return data4;
     }
 
@@ -54,28 +51,7 @@ function createRemoteDB(host, port) {
         console.log('Aqui se esta imprimiendo la data en query-remote', data3)
         return data3;
     }
-    // function req(method, table, data) {
-    //     let url = URL + '/' + table;
-    //     body = '';
 
-    //     return new Promise((resolve, reject) => {
-    //         request({
-    //             method,
-    //             headers: {
-    //                 'content-type': 'application/json'
-    //             },
-    //             url,
-    //             body,
-    //         }, (err, req, body) => {
-    //             if(err) {
-    //                 console.error('Error in the Remote DB', err);
-    //                 return reject(err.message);
-    //             }
-    //             const resp = JSON.parse(body);
-    //             return resolve(resp.body);
-    //         })
-    //     })
-    // }
 
     return {
         list,

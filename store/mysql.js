@@ -75,21 +75,20 @@ function insert(table, data) {
 };
 
 function update(table, id, data) {
-    console.log('UPDATE MYSQL', table, 'DATA',data,'ID', id);
     return new Promise ((resolve, reject) => {
-        connection.query(`UPDATE ${table} SET ? WHERE id=?`, [data, id], (err, result) => {
-            if (err) return reject(err);
-            resolve(result);
-            console.log('ESTE ES EL RESULTADO', result)
-        })
-    })
+            connection.query(`UPDATE ${table} SET ? WHERE id=?`, [data, id], (err, result) => {
+                if (err) return reject(err);
+                resolve(result);
+            });
+    });
 };
 
 function query(table, query) {
     return new Promise((resolve, reject) => {
-        connection.query(`SELECT * FROM ${table} WHERE username=${query.username}`, (err, res) => {
+        connection.query(`SELECT * FROM ${table} WHERE username='${query.username}'`, (err, res) => {
             if (err) return reject(err);
             resolve(res[0] || null);
+            console.log(res[0])
         })
     })
 };
