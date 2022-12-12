@@ -2,13 +2,13 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const config = require('../config')
-const router = require('./routes')
+const routerMySQL = require('./routes')
 const app = express();
 
 app.use(bodyParser.json());
 
 //RUTAS
-app.use('/', router);
+app.use('/', routerMySQL);
 
 
 app.listen(config.mysqlService.port, () => {
